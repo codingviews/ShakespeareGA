@@ -8,7 +8,7 @@ class Population {
     this.generations = 0; // Number of generations
     this.finished = false; // Are we finished evolving?
     this.targetPhrase = phrase; // The Target Phrase
-    this.mutationRate = nrate; // The Mutation rate
+    this.mutationRate = mrate; // The Mutation rate
     this.perfectScore = 1;
 
     this.bestPhrase = "";
@@ -19,6 +19,9 @@ class Population {
     }
 
     this.matingPool = [];
+
+    // Call calculate fitness from constructor once since
+    // the population class is never re-constructed.
     this.calcFitness();
   }
 
@@ -36,8 +39,8 @@ class Population {
 
     let maxFitness = 0;
     for (let i = 0; i < this.population.length; i++) {
-      if (this.population[i].fitness > maxFitness) {
-        maxFitness = this.population[i].fitness;
+      if (this.population[i].getFitness() > maxFitness) {
+        maxFitness = this.population[i].getFitness();
       }
     }
 
@@ -45,8 +48,8 @@ class Population {
     // a higher fitness = more entries to mating pool = more likely to be picked as a parent
     // a lower fitness = fewer entries to mating pool = less likely to be picked as a parent
     for (let i = 0; i < this.population.length; i++) {
-      let fitness = map(this.population[i].fitness, 0, maxFitness, 0, 1);
-      let n = floor(fitness * 100); // Arbitrary multiplied, we can also use monte carlo method
+      let fitness = map(this.population[i].getFitness(), 0, maxFitness, 0, 1);
+      let n = floor(fitness * 100); // Arbitrary multiplier, we can also use monte carlo method
       for (let j = 0; j < n; j++) {
         this.matingPool.push(this.population[i]);
       }
@@ -80,9 +83,9 @@ class Population {
     let mostfit = 0.0;
     let index = 0;
     for (let i = 0; i < this.population.length; i++) {
-      if (this.population[i].fitness > mostfit) {
+      if (this.population[i].getFitness() > mostfit) {
         index = i;
-        mostfit = this.population[i].fitness;
+        mostfit = this.population[i].getFitness();
       }
     }
 
@@ -102,12 +105,12 @@ class Population {
 
   // Compute Average Fitness for the population
   getAverageFitness() {
-    let total = 0;
+    let total = 0.0;
     for (let i = 0; i < this.population.length; i++) {
-      total += this.population[i].fitness;
+      total += this.population[i].getFitness();
     }
 
-    return total / (this.population.length);
+    return (total / this.population.length);
   }
 
   getAllPhrases() {

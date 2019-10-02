@@ -2,7 +2,7 @@ class Dna {
   constructor(geneSize) {
     // The genetic sequence
     this.genes = [];
-    this.fitness = 0;
+    this.fitness = 0.0;
 
     for (let i = 0; i < geneSize; i++) {
       this.genes[i] = newChar(); // Pick from range of chars
@@ -24,7 +24,11 @@ class Dna {
       }
     }
 
-    this.fitness = score / target.length;
+    this.fitness = (score / target.length);
+  }
+
+  getFitness() {
+    return this.fitness;
   }
 
   // Crossover

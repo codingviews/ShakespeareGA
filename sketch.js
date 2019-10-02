@@ -50,24 +50,22 @@ function setup() {
 	stats.class("stats");
 
 	target = "To be or not to be.";
-	popmax = 200;
+	popmax = 500;
 	mutationRate = 0.01;
-
-	// createCanvas(windowWidth, windowHeight);
 
 	// create a population with a target phrase, mutation rate, and population max
 	population = new Population(target, mutationRate, popmax);
 }
 
 function draw() {
-	// Calulate the Fitness
-	population.calcFitness();
-		
 	// Generate the mating pool
 	population.naturalSelection();
 
 	// Create next generation
 	population.generate();
+
+	// Calulate the Fitness
+	population.calcFitness();	
 
 	// Evaluate the most fit individual in the population
 	population.evaluate();
@@ -87,9 +85,9 @@ function displayInfo() {
 	bestPhrase.html("Best Phrase:<br>" + answer);
 
 	let statstext = "Total Generations:     " + population.getGenerations() + "<br>";
-	statstext += "Average Fitness:       " + nf(population.getAverageFitness()) + "<br>";
-	statstext += "Total Population:      " + popmax + "<br";
-	statstext += "Mutaion Rate:          " + floor(mutationRate * 100) + "%";
+	statstext += "Average Fitness:       " + floor(population.getAverageFitness() * 100) + "<br>";
+	statstext += "Total Population:      " + popmax + "<br>";
+	statstext += "Mutaion Rate:          " + floor(mutationRate * 100) + "% <br>";
 
 	stats.html(statstext);
 
