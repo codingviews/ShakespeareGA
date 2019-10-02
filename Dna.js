@@ -1,10 +1,10 @@
 class Dna {
-  constructor(maxsiz) {
+  constructor(geneSize) {
     // The genetic sequence
     this.genes = [];
     this.fitness = 0;
 
-    for (let i = 0; i < maxsize; i++) {
+    for (let i = 0; i < geneSize; i++) {
       this.genes[i] = newChar(); // Pick from range of chars
     }
   }
